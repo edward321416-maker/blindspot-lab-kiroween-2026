@@ -16,3 +16,9 @@ The official rules require newly created projects, meaningful Kiro usage, and di
 - Kiro CLI 3.3.0 imported and checked the pre-existing data without altering historical fixtures. Test evidence: all 13 hashes, 18 pytest cases, intentionally blocking gate with 38 new regressions. Current data and `.kiro` drafts remain pre-Kiro research rather than Kiro-authored app implementation.
 - First initial clone and validation reportedly used Auto; later Git synchronization used `claude-opus-5.5` at max effort, differing from policy target high. A separate model/effort change by user is pending.
 - No `main` branch, license, deployment, purchased cloud infrastructure or public release. Do not make original research evidence into claimed real-world oracle validity.
+
+## 2026-11-16 publication and model-effort authorization
+
+- The user explicitly approved `claude-opus-5.5` with `max` effort and PUBLIC visibility for **this single contest repository**. Earlier `max`-versus-`high` policy discrepancy is resolved as a policy decision; retain the historical record that bootstrap ran at max.
+- The GitHub source was **still PRIVATE** when this log update was made. The authorized visibility change must be completed from the user's authenticated Windows `gh` CLI and verified. Public code is not proof that a Kiro-built application exists.
+- This changes visibility only, **not** ownership, source provenance, copyright, licensing, competition eligibility, production deployment, or safety approval. Before public transition, inspect history and artifacts for secrets, personal data and redistribution restrictions.
