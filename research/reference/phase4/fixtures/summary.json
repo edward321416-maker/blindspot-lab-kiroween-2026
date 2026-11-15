@@ -1,0 +1,63 @@
+{
+  "status": "EXECUTED_SYNTHETIC_ONLY",
+  "model_training": {
+    "phase": "PHASE3",
+    "seed": 20261115,
+    "train_patches_A": 1200,
+    "train_patches_B": 2400,
+    "target": "synthetic warning triangle, one 29x28 ground-truth region",
+    "oracle": "renderer ground truth + automatic pixel-visibility proxy; no human reviewer",
+    "threshold_dev_A": {
+      "n_dev_pos": 18,
+      "n_dev_neg": 18,
+      "max_neg": -0.7832,
+      "min_pos": -0.6792,
+      "threshold": -0.78653
+    },
+    "threshold_dev_B": {
+      "n_dev_pos": 18,
+      "n_dev_neg": 18,
+      "max_neg": -0.4314,
+      "min_pos": 0.3276,
+      "threshold": -0.53459
+    },
+    "accept_iou": 0.45,
+    "model_hashes": {
+      "A": "e8e0121f6171baf4a675d8b801e8dfcbc0a1864b68682983fecb995f69159142",
+      "B": "9a3e9ecaa8fe9b844c10e8737451ee8c575c0c1783501a0e9df8a0e51b6f4e12"
+    },
+    "runtime": {
+      "python": "3.13.5",
+      "opencv": "4.13.0"
+    }
+  },
+  "n_total_cases": 728,
+  "n_valid": 727,
+  "n_abstain": 1,
+  "n_positive_valid": 519,
+  "n_negative_valid": 208,
+  "verdict_counts": {
+    "PASS_BOTH": 630,
+    "FIXED": 57,
+    "NEW_REGRESSION": 38,
+    "FAIL_BOTH": 2,
+    "ABSTAIN_ORACLE": 1
+  },
+  "accuracy_A": 0.9188445667125172,
+  "accuracy_B": 0.9449793672627235,
+  "delta_B_minus_A_pp": 2.6134800550206227,
+  "cluster_bootstrap_95ci_delta_pp": [
+    0.5517241379310345,
+    4.807692307692308
+  ],
+  "critical_regressions": 38,
+  "synthetic_release_gate": "FAIL",
+  "unit_contract_assertions": 23,
+  "human_oracle_verified": false,
+  "real_world_detector_evaluated": false,
+  "independent_customer_need_verified": false,
+  "replay": {
+    "tested": 20,
+    "pass": 20
+  }
+}

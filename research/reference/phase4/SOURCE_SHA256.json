@@ -1,0 +1,19 @@
+{
+  "source": "BLINDSPOT_PHASE4_HANDOFF 2026-11-15 local evidence package",
+  "note": "Imported bytes verified against this local copy; not independent re-proof of experiment.",
+  "sha256": {
+    "README.md": "d8fcca94b37eb170435fffc323967720b8f0bc1a96c2bdbceb01ac1d188072b2",
+    "PROJECT_STATUS.md": "5ee4cc37804255eb83c2a616ee061a0290e61731bd39e288ef33d829257a2fb8",
+    "SOURCES.md": "099000b5c13b61921384f5507b6014bbb196b86b5a44e2914ef523c8dfa1989a",
+    "src/blindspot_gate.py": "a0814d32fe569f3e4b0866ab01f7e02a002d2a10cdb23bad24d6b706096a4430",
+    "tests/test_gate.py": "b8ea2965f84ff6029b88892121713b33fcf56758631abec22890ac4b42977a53",
+    "fixtures/cases.json": "41bb878ea72dec1caf239bff272eba2a93a2ba793eb5188db25a9ee18d829828",
+    "fixtures/summary.json": "3316ee2ef396eabd6e7347c367427f32224543251b3a91e565f7d5935cf4d4f2",
+    "fixtures/oracle_audit.json": "cc311459e10a1d27c5e3be5de5a5852512a7f239cc2c244a9ddf494881ffdabc",
+    "fixtures/artifact_replay_audit.json": "377feb1c10d7cbcce8fd47c6fa9abc1916fd3f0f073d0adf49f4d04dd7aeaafa",
+    "fixtures/model_metadata.json": "6609c51705ea1c005a63604832a52b9db56a16aee089538dc2f4f96ae75404be",
+    "evidence/gate_verdict.json": "4672d72ff2e7153144e438fbdbccf0087ac3891ada85d68cabe13e88604fbe2a",
+    "evidence/gate_cases.csv": "1b6c7c448a6086a24f49fe547dbcc3d787ea3dcd8ef1cfc7c1fcd2f8ead60bb2",
+    "evidence/gate_junit.xml": "8fb40ff0345636fabae882aa16f19bca2cd985ca2aa25a6832fd9c5d032858d0"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "phase": "PHASE3",
+  "seed": 20261115,
+  "train_patches_A": 1200,
+  "train_patches_B": 2400,
+  "target": "synthetic warning triangle, one 29x28 ground-truth region",
+  "oracle": "renderer ground truth + automatic pixel-visibility proxy; no human reviewer",
+  "threshold_dev_A": {
+    "n_dev_pos": 18,
+    "n_dev_neg": 18,
+    "max_neg": -0.7832,
+    "min_pos": -0.6792,
+    "threshold": -0.78653
+  },
+  "threshold_dev_B": {
+    "n_dev_pos": 18,
+    "n_dev_neg": 18,
+    "max_neg": -0.4314,
+    "min_pos": 0.3276,
+    "threshold": -0.53459
+  },
+  "accept_iou": 0.45,
+  "model_hashes": {
+    "A": "e8e0121f6171baf4a675d8b801e8dfcbc0a1864b68682983fecb995f69159142",
+    "B": "9a3e9ecaa8fe9b844c10e8737451ee8c575c0c1783501a0e9df8a0e51b6f4e12"
+  },
+  "runtime": {
+    "python": "3.13.5",
+    "opencv": "4.13.0"
+  }
+}

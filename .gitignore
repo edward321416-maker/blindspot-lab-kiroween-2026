@@ -1,0 +1,29 @@
+# Sensitive/local-only data
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.json
+research/local-only/
+**/raw-private/
+**/personal-images/
+# Tools and caches
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+node_modules/
+dist/
+build/
+.coverage
+coverage/
+.DS_Store
+Thumbs.db
+# Large binary weights/datasets: keep out of Git unless separately vetted
+*.pth
+*.pt
+*.onnx
+*.joblib
+*.pkl

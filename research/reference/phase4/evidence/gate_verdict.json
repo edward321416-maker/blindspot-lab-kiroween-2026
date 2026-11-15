@@ -1,0 +1,53 @@
+{
+  "case_count": 728,
+  "valid": 727,
+  "abstain": 1,
+  "verdict_counts": {
+    "ABSTAIN_ORACLE": 1,
+    "FAIL_BOTH": 2,
+    "FIXED": 57,
+    "NEW_REGRESSION": 38,
+    "PASS_BOTH": 630
+  },
+  "accuracy_A": 0.91884457,
+  "accuracy_B": 0.94497937,
+  "by_transform": {
+    "blur": {
+      "FAIL_BOTH": 1,
+      "FIXED": 2,
+      "NEW_REGRESSION": 1,
+      "PASS_BOTH": 164
+    },
+    "clean": {
+      "FIXED": 1,
+      "PASS_BOTH": 55
+    },
+    "darkening": {
+      "ABSTAIN_ORACLE": 1,
+      "FAIL_BOTH": 1,
+      "FIXED": 49,
+      "PASS_BOTH": 117
+    },
+    "glare": {
+      "NEW_REGRESSION": 37,
+      "PASS_BOTH": 131
+    },
+    "noise": {
+      "FIXED": 5,
+      "PASS_BOTH": 163
+    }
+  },
+  "min_iou": 0.45,
+  "source_class": "synthetic_provenance",
+  "review_quorum": {
+    "reviewed": 0,
+    "quorum_passed": 0,
+    "conflict": 0,
+    "missing": 727,
+    "authenticated": false
+  },
+  "technical_gate": "FAIL",
+  "production_approval": "BLOCKED_UNVERIFIED_ORACLE",
+  "limitation": "Only structured predictions recomputed; independent image-mask validation and authentic reviewer identity are not proven by this gate.",
+  "cases_sha256": "41bb878ea72dec1caf239bff272eba2a93a2ba793eb5188db25a9ee18d829828"
+}

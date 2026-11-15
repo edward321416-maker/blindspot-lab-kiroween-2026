@@ -1,0 +1,9 @@
+{
+  "auditor": "model-blind separate process",
+  "checked": 728,
+  "passes": 728,
+  "failures": 0,
+  "tampered_bbox_detected": true,
+  "independent_human_oracle": false,
+  "summary": "Independent of prediction outputs, not independent of image generation or semantic human annotation"
+}

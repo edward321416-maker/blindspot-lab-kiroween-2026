@@ -1,0 +1,89 @@
+{
+  "fresh_process": true,
+  "models_loaded_from_disk": true,
+  "model_hash_verified": true,
+  "tested": 20,
+  "matched": 20,
+  "records": [
+    {
+      "case_id": "70000-glare-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70001-darkening-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70002-darkening-0.55",
+      "replay_same": true
+    },
+    {
+      "case_id": "70002-darkening-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70002-blur-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70002-glare-0.55",
+      "replay_same": true
+    },
+    {
+      "case_id": "70002-glare-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70004-darkening-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70004-glare-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70005-darkening-0.55",
+      "replay_same": true
+    },
+    {
+      "case_id": "70005-darkening-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70006-darkening-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70007-darkening-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70008-darkening-0.55",
+      "replay_same": true
+    },
+    {
+      "case_id": "70008-darkening-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70008-glare-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70009-darkening-0.55",
+      "replay_same": true
+    },
+    {
+      "case_id": "70009-darkening-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70009-blur-0.85",
+      "replay_same": true
+    },
+    {
+      "case_id": "70009-glare-0.55",
+      "replay_same": true
+    }
+  ]
+}
