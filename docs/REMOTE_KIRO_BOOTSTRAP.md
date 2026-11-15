@@ -1,5 +1,7 @@
 # Kiro CLI — Remote bootstrap from GitHub (2026-11-15 KST)
 
+> **MODEL-FIRST OVERRIDE (2026-11-16):** Before acting, read `docs/START_HERE_KIRO_CLI_20261116.md` and `docs/KIRO_CLI_MODEL_EFFORT_POLICY_20261116.md` from this branch. The quality-first routing policy supersedes any older MiniMax-first / Free-only assumptions. The user confirmed Claude Opus 5.5 is selectable. Use **Claude Opus 5.5, high effort** for the initial safe local/GitHub setup, and task-specific model routing thereafter. GPT-5.6 Sol and Sonnet 5.5 must be checked in the live CLI model picker before use. The 100-credit bootstrap ceiling and RESEARCH HOLD remain in force.
+
 ## Scope and status
 This is a **handoff of pre-existing BLINDSPOT LAB research**, not an already built Kiro application. Its product decision remains RESEARCH HOLD. The 29-file starter was verified against the original local ZIP using Git blob SHA, including original CRLF in gate_cases.csv. No Kiro credits were used by this handoff.
 
