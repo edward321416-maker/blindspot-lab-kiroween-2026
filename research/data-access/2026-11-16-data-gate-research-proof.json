@@ -1,0 +1,30 @@
+{
+  "scenario": "synthetic small event / staff schedule",
+  "staff": 6,
+  "tasks": 6,
+  "periods": 2,
+  "cases": {
+    "B_absent": {
+      "feasible_schedules": 4,
+      "minimum_reassignments": 2,
+      "assignment": [
+        "A",
+        "E",
+        "C",
+        "D",
+        "A",
+        "C"
+      ]
+    },
+    "B_E_absent": {
+      "feasible_schedules": 0,
+      "status": "INFEASIBLE",
+      "reason": "9시 동시 업무 3건, 해당 시간에 투입 가능 인원 2명(A,C)"
+    }
+  },
+  "limitations": [
+    "synthetic only",
+    "not Timefold parity benchmark",
+    "cannot infer unknown skills, staffing availability or business outcomes"
+  ]
+}
