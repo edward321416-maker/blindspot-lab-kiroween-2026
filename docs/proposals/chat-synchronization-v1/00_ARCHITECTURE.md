@@ -1,7 +1,7 @@
 # BLINDSPOT LAB — research/development chat coordination proposal v1
 
 Status: PROPOSAL ONLY. Not installed, not merged, not an automatic synchronization system.
-Drafted 2026-11-16 KST from verified GitHub commit f9b2b026b2d619f3c2c764a5149975363e4fb724.
+Drafted 2026-11-16 KST from verified R0 commit f9b2b026b2d619f3c2c764a5149975363e4fb724. **Freshness check:** while this plan was being prepared, the default branch advanced to 113dc6fb455cfa589567939331e1a8091d4bf2e4 (docs-only R0 publication audit; original research files unchanged). This proposal branch deliberately remains based on f9b2b02, without rebasing or changing the default. Re-read HEAD again before any PR integration.
 
 ## Current factual baseline
 - Public repository: https://github.com/edward321416-maker/blindspot-lab-kiroween-2026
