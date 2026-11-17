@@ -25,8 +25,8 @@ Suggested **illustrative** investigation: “Does a historical city-plan documen
 ## Work boundaries
 
 - **Kiro local B3** user-reported full SHA `4c4dc7adf49f8c6a3e699da0370bd8c93374e98a`, 134/134 Node tests; underlying source **not independently read** in this planning chat.
-- **B4** existing `21_WORKFLOWS/KIRO_B4_INTEGRATION_SMOKE_EVIDENCE_20261117.md`; latest connected evidence here is *instructions*, not completion. Do not recreate B4 if the local Git HEAD already reflects completion.
-- **B5** QA separately after B4. Browser D2, OAP-0.1 product integration, real museum assets, human approval and production publishing are all *future, separate authorization*.
+- **B4** newly observed 2026-11-17 22:27 KST USER-REPORTED local PASS at `09f4b8a524058440a7dbc9917d3112640d73d258`, two full runs 164/164; raw local source was NOT independently executed here. Do NOT redo B4. The synthetic case F3-12 shows that quote presence does NOT entail the claim; this gap must be explicitly reviewed in B5. Existing workflow `21_WORKFLOWS/KIRO_B4_INTEGRATION_SMOKE_EVIDENCE_20261117.md` remains historical evidence.
+- **B5** next: same-model but separately scoped technical QA, F3-12 claim relevance and F3-13 false blocking check, SHA and source reconstruction; no automatic D2 authorization. QA separately after B4. Browser D2, OAP-0.1 product integration, real museum assets, human approval and production publishing are all *future, separate authorization*.
 - Existing B3 four typed primitives, 50-step cap, structured output only, no dynamic HTML/JS, external network and unrestricted tool execution. No implicit D2 UI features at B3.
 - Research 3.8/3.9 offline Python reference tests ≠ Kiro product proof. No sealed 3.2 holdout identities/answer keys in this public doc or implementation prompt.
 - Any code modifications must be unified diffs or exact SEARCH/REPLACE and include new files. No direct GhostWeb or BLINDSPOT modifications.
