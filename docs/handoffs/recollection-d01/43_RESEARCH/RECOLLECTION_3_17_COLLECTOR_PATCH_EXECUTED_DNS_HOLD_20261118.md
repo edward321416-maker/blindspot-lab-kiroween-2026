@@ -31,6 +31,6 @@ py -3 tools/capture_raw_http.py --root . --pack A
 py -3 tools/verify_captures.py --root .
 ```
 
-Stop on DNS/403/429/identity failures; no proxy bypass, credential leakage, unauthorized media or paid access. A gate passes only when both `MET-36491` and `MET-45434` have actual committed response.bin+capture.json+COMMITTED with matching original-byte SHA256 and exact object identity. Thereafter stage C; B/D require extra HTML identity and third-party media license review. Current B5.2 Kiro implementation status not observed from this data lab, and human oracle/publish remain HOLD.
+Stop on DNS/403/429/identity failures; no proxy bypass, credential leakage, unauthorized media or paid access. A gate passes only when both `MET-36491` and `MET-45434` have actual committed response.bin+capture.json+COMMITTED with matching original-byte SHA256 and exact object identity. Thereafter stage C; B/D require extra HTML identity and third-party media license review. **Separate, newly observed Kiro report (AI_Execution_Log row 1110):** B5.2 typed visitor-output adapter user/Kiro-reported LOCAL_PASS at `c02ac7caee1eb163d5ed24b108605c6bb89f5cb0`, Node 239/239 twice, original code not independently audited here. Row 1111 reports D2-V0 local viewer development separately authorized, but not yet evidenced as implemented. **Neither changes this research lab's RAW 0/8, rights/human oracle HOLD nor authorizes release.**
 
 **Do not call this RAW source collection successful. Do not merge these utility patches into the frozen Kiro engine.**
