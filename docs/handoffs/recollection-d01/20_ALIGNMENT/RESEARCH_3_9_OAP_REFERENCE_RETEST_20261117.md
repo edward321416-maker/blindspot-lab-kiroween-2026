@@ -14,7 +14,7 @@ These are NOT independent or blind tests. The oracle, attacks, test harness and 
 
 ## Engineering boundary
 
-The prior user-reported Kiro B2 checkpoint is local commit `54f88b5be8a50afa187640d7d8564f75cb7b51ae`, with 112/112 tests, **NOT independently verified here**. The current GitHub `19_WORKFLOWS/KIRO_B3_IMPLEMENT_RESTRICTED_RUNTIME_20261117.md` calls for B3 only. No completed B3 code result is available in this workspace.
+The prior user-reported Kiro B2 checkpoint is local commit `54f88b5be8a50afa187640d7d8564f75cb7b51ae`, with 112/112 tests, **NOT independently verified here**. The current GitHub `19_WORKFLOWS/KIRO_B3_IMPLEMENT_RESTRICTED_RUNTIME_20261117.md` calls for B3 only. After this reference study began, AI_Execution_Log row 1064 recorded a NEW user-pasted Kiro B3 report: local commit `4c4dc7adf49f8c6a3e699da0370bd8c93374e98a`, 134/134 local Node tests, R01–R06 6/6, four restricted primitives, 50-step bound and structured outputs only. This is **KIRO_USER_REPORTED**, NOT a direct source/diff/runtime audit here. GitHub docs `20_ALIGNMENT/B3_COMPLETE_B4_PRODUCT_RESEARCH_GATE_20261117.md` and `21_WORKFLOWS/KIRO_B4_INTEGRATION_SMOKE_EVIDENCE_20261117.md` now exist; B4 is an instruction, NOT an observed execution. Do not redo B3.
 
 **Preserve B0/B1/B2 frozen oracle, unchanged B3 scope, and B3 R01–R06.** OAP-0.1 is only a **proposed later versioned output assurance contract**, not an approved change to current B3 or an instruction to start B4.
 
