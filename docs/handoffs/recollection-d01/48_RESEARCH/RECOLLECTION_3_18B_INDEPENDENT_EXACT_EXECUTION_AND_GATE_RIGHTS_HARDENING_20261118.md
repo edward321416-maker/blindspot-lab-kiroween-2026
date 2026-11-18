@@ -51,7 +51,7 @@ The independent auditor still does **not** have those two original `response.bin
 
 - **Private Drive audit folder:** https://drive.google.com/drive/folders/14_0zWAzCf0sLEgCcEKKPynM7GKW-Z_0-
 - **Verified ZIP:** https://drive.google.com/file/d/1JWfJciqsQ7Xjp7yCn7Xw7e76VoTbw-xE/view, **176,255 bytes**, SHA256 `6bfd272e5d6e5b95b7df411867833dc9901b0792d474e2b500c162de132a918d`; 26 entries, all per-item CRC/SHA pass; includes exact source, patched source, standalone unified diff, Python logs and 6-page PDF. Remote ZIP byte size and parent verified.
-- **PDF viewing copy:** https://drive.google.com/file/d/1hKsPQvn_-IDisxsfX6HJC-Nj1Nvx2blJ/view, 6 pages. **Drive PDF export/upload path reported different byte size (142,933) than canonical local file (117,960)**. The canonical byte-identical PDF is stored inside the ZIP; remote PDF fetched text confirms core content but its SHA must not be conflated with canonical local PDF.
+- **PDF viewing copy:** https://drive.google.com/file/d/1hKsPQvn_-IDisxsfX6HJC-Nj1Nvx2blJ/view, 6 pages. ZIP-internal PDF independently re-opened: **142,933 bytes**, SHA256 `3246b3b9fe92e218179e598d9af38f27cc04e282da956c6ab34aa2cb1fcbe41d`. Drive PDF metadata also reports **142,933 bytes** and fetched text verifies core content. Remote PDF **byte-level SHA was not independently retrieved**, so exact remote content equivalence is not asserted solely from size.
 - **Exact public-code-only bridge Doc** in private folder `14_0zWAzCf0sLEgCcEKKPynM7GKW-Z_0-`, no private raw Met response.
 
 ## Strict next step
