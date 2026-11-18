@@ -1,0 +1,39 @@
+{
+  "format": "Re:Collection 3.17 public validation derivative",
+  "public_derivative": true,
+  "validated_at_utc": "2026-11-18T07:59:14.646321Z",
+  "validator_path": "capture_met.py",
+  "source_scope": "local-only Met A evidence; raw files not published",
+  "results": [
+    {
+      "object_id": 36491,
+      "validation_result": true,
+      "expected_sha256": "1591688c92ce0cfe788a47edad4bd9a84e70afbd1b7b7f58b754ccb902699b6c",
+      "sha256_before": "1591688c92ce0cfe788a47edad4bd9a84e70afbd1b7b7f58b754ccb902699b6c",
+      "sha256_after": "1591688c92ce0cfe788a47edad4bd9a84e70afbd1b7b7f58b754ccb902699b6c",
+      "byte_size_before": 2171,
+      "byte_size_after": 2171,
+      "sha256_matches_expected": true,
+      "file_metadata_unchanged": true
+    },
+    {
+      "object_id": 45434,
+      "validation_result": true,
+      "expected_sha256": "eddd9f43c0d80b176c53a895ef2776f8d77010ce5ac945a3bdeb043a2bc8d72e",
+      "sha256_before": "eddd9f43c0d80b176c53a895ef2776f8d77010ce5ac945a3bdeb043a2bc8d72e",
+      "sha256_after": "eddd9f43c0d80b176c53a895ef2776f8d77010ce5ac945a3bdeb043a2bc8d72e",
+      "byte_size_before": 2385,
+      "byte_size_after": 2385,
+      "sha256_matches_expected": true,
+      "file_metadata_unchanged": true
+    }
+  ],
+  "all_valid": true,
+  "all_hashes_unchanged": true,
+  "all_file_metadata_unchanged": true,
+  "redactions": [
+    "Local absolute validator and evidence-root paths were replaced with relative or scope-only values.",
+    "Local filesystem timestamp integers were omitted as unnecessary public metadata.",
+    "Raw responses, complete capture metadata, COMMITTED markers, cookies, and images are not included."
+  ]
+}

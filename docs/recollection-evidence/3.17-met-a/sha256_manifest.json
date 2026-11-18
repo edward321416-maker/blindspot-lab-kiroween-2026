@@ -1,0 +1,90 @@
+{
+  "format": "Re:Collection 3.17 public evidence manifest",
+  "generated_at_utc": "2026-11-18T08:21:06.217050Z",
+  "hash_algorithm": "SHA-256",
+  "branch": "evidence/recollection-met-a-20261118",
+  "base_commit": "113dc6fb455cfa589567939331e1a8091d4bf2e4",
+  "results": {
+    "baseline_tests": {
+      "passed": 32,
+      "total": 32
+    },
+    "new_marker_regression_tests": {
+      "passed": 5,
+      "total": 5
+    },
+    "patched_tests": {
+      "passed": 37,
+      "total": 37
+    },
+    "real_capture_validation": {
+      "passed": 2,
+      "total": 2
+    }
+  },
+  "local_source_evidence_not_published": [
+    {
+      "object_id": 36491,
+      "byte_size": 2171,
+      "sha256_before": "1591688c92ce0cfe788a47edad4bd9a84e70afbd1b7b7f58b754ccb902699b6c",
+      "sha256_after": "1591688c92ce0cfe788a47edad4bd9a84e70afbd1b7b7f58b754ccb902699b6c",
+      "validator_result": true
+    },
+    {
+      "object_id": 45434,
+      "byte_size": 2385,
+      "sha256_before": "eddd9f43c0d80b176c53a895ef2776f8d77010ce5ac945a3bdeb043a2bc8d72e",
+      "sha256_after": "eddd9f43c0d80b176c53a895ef2776f8d77010ce5ac945a3bdeb043a2bc8d72e",
+      "validator_result": true
+    }
+  ],
+  "published_entries_excluding_this_manifest": [
+    {
+      "path": "docs/recollection-evidence/3.17-met-a/baseline_test_results.txt",
+      "byte_size": 3456,
+      "sha256": "1a3848fd91dfe554933a1bebe63d37c5fc55cc73d69018879a1267c7501228e0"
+    },
+    {
+      "path": "docs/recollection-evidence/3.17-met-a/capture_met.py",
+      "byte_size": 16284,
+      "sha256": "50f2caa03dd239d9d6c237ee65b341d1e2c149d79099d54e5589dd533044e2c0"
+    },
+    {
+      "path": "docs/recollection-evidence/3.17-met-a/marker_patch.diff",
+      "byte_size": 4672,
+      "sha256": "66ef324200ce7dbfb2055457c1e22c05c704720dd3c48080e45defdb2269ba81"
+    },
+    {
+      "path": "docs/recollection-evidence/3.17-met-a/patched_test_results.txt",
+      "byte_size": 4088,
+      "sha256": "4e6c7d587261103ff3cc977937e4b355925253c64d526170e22f63fa826df40d"
+    },
+    {
+      "path": "docs/recollection-evidence/3.17-met-a/README.md",
+      "byte_size": 2877,
+      "sha256": "00b6269a7796f33604c8c674864b9ddef69d613bc6255580115cac4106e0d3a9"
+    },
+    {
+      "path": "docs/recollection-evidence/3.17-met-a/real_capture_validation.json",
+      "byte_size": 1663,
+      "sha256": "2016b7dadfe8b2e31ed090bc385c35959bbf140e04b075c17063825590723553"
+    },
+    {
+      "path": "docs/recollection-evidence/3.17-met-a/test_capture_met.py",
+      "byte_size": 11882,
+      "sha256": "ddf840871094403080449824efebc0517b53967754655a837eb1d78ba41fb504"
+    },
+    {
+      "path": "docs/recollection-evidence/3.17-met-a/validation_report.md",
+      "byte_size": 3255,
+      "sha256": "8f0e87ef3dd9608599cbf7849cbb43f1e7c09fa1dc2fde5bf2610bb4a4573e83"
+    }
+  ],
+  "public_derivative_notes": [
+    "The raw response, complete capture metadata, COMMITTED files, ZIP and images are not published.",
+    "real_capture_validation.json replaces local absolute paths with relative or scope-only values.",
+    "The public baseline and patched logs are LF-normalized copies of successful measured unittest output.",
+    "The public unified diff removes trailing spaces from empty added lines; patch semantics are unchanged.",
+    "This manifest lists the eight sibling payload files and does not list its own hash to avoid self-reference."
+  ]
+}

@@ -1,0 +1,112 @@
+--- a/capture_met.py
++++ b/capture_met.py
+@@ -11,7 +11,7 @@
+ import urllib.error
+ import urllib.parse
+ import urllib.request
+-from datetime import UTC, datetime
++from datetime import UTC, datetime, timedelta
+ from pathlib import Path
+ from typing import Any, BinaryIO, NoReturn
+
+@@ -325,6 +325,24 @@
+             parse_constant=reject_constant,
+         )
+         digest, size = sha256_file(response_path)
++        marker_lines = marker_path.read_text(encoding="utf-8").splitlines()
++        if len(marker_lines) != 4:
++            return False
++        if marker_lines[0] != "COMMITTED":
++            return False
++        if marker_lines[1] != f"objectID={expected_id}":
++            return False
++        if marker_lines[2] != f"sha256={digest}":
++            return False
++        timestamp_text = marker_lines[3].removeprefix("committed_at_utc=")
++        if timestamp_text == marker_lines[3] or not timestamp_text:
++            return False
++        normalized_timestamp = (
++            f"{timestamp_text[:-1]}+00:00" if timestamp_text.endswith("Z") else timestamp_text
++        )
++        committed_at = datetime.fromisoformat(normalized_timestamp)
++        if committed_at.tzinfo is None or committed_at.utcoffset() != timedelta(0):
++            return False
+     except (OSError, UnicodeError, json.JSONDecodeError, ValueError, CaptureError):
+         return False
+     return bool(
+@@ -335,7 +353,6 @@
+         and capture_value.get("stored_byte_size") == size
+         and capture_value.get("object_id_verified") is True
+         and capture_value.get("sha256_verified_after_reopen") is True
+-        and marker_path.read_text(encoding="utf-8").startswith("COMMITTED\n")
+     )
+
+
+--- a/test_capture_met.py
++++ b/test_capture_met.py
+@@ -189,7 +189,11 @@
+                 "sha256_verified_after_reopen": True,
+             },
+         )
+-        capture_met.write_bytes_atomic_exclusive(directory / "COMMITTED", b"COMMITTED\n")
++        marker = (
++            f"COMMITTED\nobjectID={object_id}\nsha256={digest}\n"
++            "committed_at_utc=2026-11-18T05:29:20Z\n"
++        ).encode("utf-8")
++        capture_met.write_bytes_atomic_exclusive(directory / "COMMITTED", marker)
+
+     def test_28_atomic_write_and_file_hash(self) -> None:
+         directory = self.make_directory()
+@@ -228,6 +232,52 @@
+         self.write_complete_capture(directory)
+         self.assertTrue(capture_met.verify_committed_directory(directory, 36491))
+
++    def test_33_wrong_marker_object_id_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory)
++        marker_path = directory / "COMMITTED"
++        marker_path.write_text(
++            marker_path.read_text(encoding="utf-8").replace(
++                "objectID=36491", "objectID=45434"
++            ),
++            encoding="utf-8",
++        )
++        self.assertFalse(capture_met.verify_committed_directory(directory, 36491))
++
++    def test_34_wrong_marker_sha256_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory)
++        marker_path = directory / "COMMITTED"
++        lines = marker_path.read_text(encoding="utf-8").splitlines()
++        lines[2] = f"sha256={'0' * 64}"
++        marker_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
++        self.assertFalse(capture_met.verify_committed_directory(directory, 36491))
++
++    def test_35_committed_prefix_only_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory)
++        (directory / "COMMITTED").write_text("COMMITTED\n", encoding="utf-8")
++        self.assertFalse(capture_met.verify_committed_directory(directory, 36491))
++
++    def test_36_naive_marker_timestamp_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory)
++        marker_path = directory / "COMMITTED"
++        marker_path.write_text(
++            marker_path.read_text(encoding="utf-8").replace(
++                "2026-11-18T05:29:20Z", "2026-11-18T05:29:20"
++            ),
++            encoding="utf-8",
++        )
++        self.assertFalse(capture_met.verify_committed_directory(directory, 36491))
++
++    def test_37_extra_marker_line_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory)
++        with (directory / "COMMITTED").open("a", encoding="utf-8") as handle:
++            handle.write("unexpected=true\n")
++        self.assertFalse(capture_met.verify_committed_directory(directory, 36491))
++
+
+ if __name__ == "__main__":
+     unittest.main(verbosity=2)
