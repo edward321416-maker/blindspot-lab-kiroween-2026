@@ -1,0 +1,521 @@
+diff --git a/capture_met.py b/capture_met.py
+index 23e24b8..a12424b 100644
+--- a/capture_met.py
++++ b/capture_met.py
+@@ -311,0 +312,35 @@ def capture_one(root: Path, object_id: int) -> dict[str, Any]:
++def parse_utc_timestamp(value: Any) -> datetime | None:
++    """Parse a timezone-aware UTC timestamp, returning none when invalid."""
++    if type(value) is not str or not value:
++        return None
++    normalized = f"{value[:-1]}+00:00" if value.endswith("Z") else value
++    try:
++        parsed = datetime.fromisoformat(normalized)
++    except ValueError:
++        return None
++    if parsed.tzinfo is None or parsed.utcoffset() != timedelta(0):
++        return None
++    return parsed
++
++
++def has_json_content_type(headers: Any) -> bool:
++    """Require well-formed response headers with a JSON content type."""
++    if not isinstance(headers, list):
++        return False
++    content_types: list[str] = []
++    for header in headers:
++        if (
++            not isinstance(header, list)
++            or len(header) != 2
++            or type(header[0]) is not str
++            or type(header[1]) is not str
++        ):
++            return False
++        if header[0].lower() == "content-type":
++            content_types.append(header[1])
++    return bool(content_types) and all(
++        value.split(";", 1)[0].strip().lower() == "application/json"
++        for value in content_types
++    )
++
++
+@@ -340,2 +375,10 @@ def verify_committed_directory(directory: Path, expected_id: int) -> bool:
+-        normalized_timestamp = (
+-            f"{timestamp_text[:-1]}+00:00" if timestamp_text.endswith("Z") else timestamp_text
++        committed_at = parse_utc_timestamp(timestamp_text)
++        request_started = (
++            parse_utc_timestamp(capture_value.get("request_started_at_utc"))
++            if isinstance(capture_value, dict)
++            else None
++        )
++        collected_at = (
++            parse_utc_timestamp(capture_value.get("collected_at_utc"))
++            if isinstance(capture_value, dict)
++            else None
+@@ -343,2 +386,6 @@ def verify_committed_directory(directory: Path, expected_id: int) -> bool:
+-        committed_at = datetime.fromisoformat(normalized_timestamp)
+-        if committed_at.tzinfo is None or committed_at.utcoffset() != timedelta(0):
++        if (
++            committed_at is None
++            or request_started is None
++            or collected_at is None
++            or not request_started <= collected_at <= committed_at
++        ):
+@@ -349,0 +397 @@ def verify_committed_directory(directory: Path, expected_id: int) -> bool:
++        and type(capture_value.get("expected_objectID")) is int
+@@ -350,0 +399 @@ def verify_committed_directory(directory: Path, expected_id: int) -> bool:
++        and type(capture_value.get("json_objectID")) is int
+@@ -351,0 +401 @@ def verify_committed_directory(directory: Path, expected_id: int) -> bool:
++        and capture_value.get("received_sha256") == digest
+@@ -352,0 +403,3 @@ def verify_committed_directory(directory: Path, expected_id: int) -> bool:
++        and type(capture_value.get("byte_size")) is int
++        and capture_value.get("byte_size") == size
++        and type(capture_value.get("stored_byte_size")) is int
+@@ -353,0 +407,6 @@ def verify_committed_directory(directory: Path, expected_id: int) -> bool:
++        and type(capture_value.get("http_status")) is int
++        and capture_value.get("http_status") == 200
++        and capture_value.get("request_url") == object_url(expected_id)
++        and capture_value.get("final_url") == object_url(expected_id)
++        and has_json_content_type(capture_value.get("response_headers"))
++        and capture_value.get("response_file") == "response.bin"
+diff --git a/collect_met_c.py b/collect_met_c.py
+new file mode 100644
+index 0000000..c9e3032
+--- /dev/null
++++ b/collect_met_c.py
+@@ -0,0 +1,115 @@
++"""Run the gated, JSON-only Met C capture for two fixed object IDs."""
++
++from __future__ import annotations
++
++import json
++import sys
++import time
++from pathlib import Path
++from typing import Any
++
++import capture_met
++
++OBJECT_IDS = (437127, 436535)
++
++
++def gate_passed(log_path: Path) -> bool:
++    """Return true only when the measured 49-test gate completed successfully."""
++    try:
++        text = log_path.read_text(encoding="utf-8")
++    except (OSError, UnicodeError):
++        return False
++    normalized = text.replace("\r\n", "\n")
++    return "Ran 49 tests" in normalized and "\nOK\n" in normalized
++
++
++def run(private_root: Path, gate_log: Path) -> tuple[dict[str, Any], int]:
++    """Capture the fixed C objects only after the integrity test gate passes."""
++    if not gate_passed(gate_log):
++        return {
++            "status": "HOLD",
++            "reason": "49-test integrity gate did not pass",
++            "exit_code": 30,
++            "target_object_ids": list(OBJECT_IDS),
++            "captures": [],
++        }, 30
++
++    results: list[dict[str, Any]] = []
++    failure: dict[str, Any] | None = None
++    for index, object_id in enumerate(OBJECT_IDS):
++        if index:
++            time.sleep(capture_met.REQUEST_DELAY_SECONDS)
++        try:
++            result = capture_met.capture_one(private_root, object_id)
++            directory = private_root / str(result["directory"])
++            if not capture_met.verify_committed_directory(directory, object_id):
++                raise capture_met.CaptureError(
++                    "Post-capture committed-directory verification failed",
++                    24,
++                    stage="post_capture_verification",
++                )
++            results.append(result)
++        except capture_met.CaptureError as error:
++            failure = {
++                "object_id": object_id,
++                "status": "failed",
++                "stage": error.stage,
++                "exit_code": error.exit_code,
++                "error_type": type(error).__name__,
++                "error": str(error),
++                **error.details,
++            }
++            break
++        except Exception as error:  # Defensive boundary: report, never continue.
++            failure = {
++                "object_id": object_id,
++                "status": "failed",
++                "stage": "unexpected",
++                "exit_code": 25,
++                "error_type": type(error).__name__,
++                "error": str(error),
++            }
++            break
++
++    complete = len(results) == len(OBJECT_IDS) and failure is None
++    exit_code = 0 if complete else int(failure["exit_code"] if failure else 25)
++    status: dict[str, Any] = {
++        "scope": "Met C JSON-only set",
++        "target_object_ids": list(OBJECT_IDS),
++        "completed_at_utc": capture_met.utc_now(),
++        "raw_capture_success_count": len(results),
++        "raw_capture_target_count": len(OBJECT_IDS),
++        "sha256_verified_count": sum(bool(item["sha256_verified"]) for item in results),
++        "object_id_verified_count": sum(bool(item["object_id_verified"]) for item in results),
++        "captures": results,
++        "failure": failure,
++        "exit_code": exit_code,
++        "status": "complete" if complete else "HOLD",
++        "image_files_downloaded": 0,
++    }
++    return status, exit_code
++
++
++def main() -> int:
++    """Execute the gated capture and write status plus response manifest."""
++    if len(sys.argv) != 3:
++        print("usage: collect_met_c.py PRIVATE_ROOT GATE_LOG", file=sys.stderr)
++        return 2
++    private_root = Path(sys.argv[1]).resolve()
++    gate_log = Path(sys.argv[2]).resolve()
++    status_path = private_root / "capture_status.json"
++    manifest_path = private_root / "sha256_manifest.json"
++    if status_path.exists() or manifest_path.exists():
++        print("Refusing to overwrite capture status or manifest", file=sys.stderr)
++        return 24
++
++    status, exit_code = run(private_root, gate_log)
++    manifest = capture_met.make_manifest(status["captures"])
++    capture_met.write_json_atomic_exclusive(manifest_path, manifest)
++    capture_met.write_json_atomic_exclusive(status_path, status)
++    print(json.dumps(status, ensure_ascii=False, indent=2))
++    return exit_code
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/rights_policy.py b/rights_policy.py
+new file mode 100644
+index 0000000..af9f3d6
+--- /dev/null
++++ b/rights_policy.py
+@@ -0,0 +1,96 @@
++"""Fail-closed rights decisions for sanitized Met research output."""
++
++from __future__ import annotations
++
++from dataclasses import dataclass
++from typing import Literal
++
++Decision = Literal[
++    "RIGHTS_REVIEW_HOLD",
++    "METADATA_ONLY_ALLOWED",
++    "AUTHORED_TEXT_ALLOWED",
++    "IMAGE_REUSE_APPROVED",
++]
++
++
++@dataclass(frozen=True)
++class RightsSignals:
++    """Independent source signals and explicit reuse approvals for one object."""
++
++    api_public_domain: bool
++    page_public_domain: bool | None
++    primary_image_present: bool
++    image_download_available: bool | None
++    metadata_reviewed: bool
++    authored_text_approved: bool
++    image_display_approved: bool
++    third_party_fallback_requested: bool = False
++    simulated_rights_change: str | None = None
++
++
++def evaluate_rights(signals: RightsSignals) -> dict[str, dict[str, object]]:
++    """Evaluate metadata, authored text, and image output independently."""
++    conflict = (
++        signals.page_public_domain is not None
++        and signals.api_public_domain != signals.page_public_domain
++    )
++    simulated = signals.simulated_rights_change is not None
++
++    metadata_decision: Decision = (
++        "METADATA_ONLY_ALLOWED" if signals.metadata_reviewed else "RIGHTS_REVIEW_HOLD"
++    )
++    authored_decision: Decision = (
++        "AUTHORED_TEXT_ALLOWED"
++        if signals.authored_text_approved and not simulated
++        else "RIGHTS_REVIEW_HOLD"
++    )
++    image_allowed = all(
++        (
++            signals.api_public_domain,
++            signals.page_public_domain is True,
++            signals.primary_image_present,
++            signals.image_download_available is True,
++            signals.image_display_approved,
++            not signals.third_party_fallback_requested,
++            not simulated,
++            not conflict,
++        )
++    )
++    image_decision: Decision = (
++        "IMAGE_REUSE_APPROVED" if image_allowed else "RIGHTS_REVIEW_HOLD"
++    )
++
++    image_reasons: list[str] = []
++    if conflict:
++        image_reasons.append("API_AND_ITEM_PAGE_RIGHTS_CONFLICT")
++    if not signals.primary_image_present:
++        image_reasons.append("PRIMARY_IMAGE_ABSENT")
++    if signals.image_download_available is not True:
++        image_reasons.append("DOWNLOAD_NOT_CONFIRMED")
++    if not signals.api_public_domain:
++        image_reasons.append("API_NOT_PUBLIC_DOMAIN")
++    if signals.page_public_domain is not True:
++        image_reasons.append("ITEM_PAGE_PUBLIC_DOMAIN_NOT_CONFIRMED")
++    if not signals.image_display_approved:
++        image_reasons.append("DISPLAY_NOT_APPROVED")
++    if signals.third_party_fallback_requested:
++        image_reasons.append("THIRD_PARTY_FALLBACK_FORBIDDEN")
++    if simulated:
++        image_reasons.append("SIMULATED_RIGHTS_CHANGE_NOT_REAL_EVIDENCE")
++
++    return {
++        "METADATA": {
++            "decision": metadata_decision,
++            "reasons": [] if signals.metadata_reviewed else ["METADATA_REVIEW_REQUIRED"],
++        },
++        "AUTHORED_TEXT": {
++            "decision": authored_decision,
++            "reasons": []
++            if authored_decision == "AUTHORED_TEXT_ALLOWED"
++            else ["AUTHORED_TEXT_APPROVAL_REQUIRED"],
++        },
++        "IMAGE": {
++            "decision": image_decision,
++            "reasons": image_reasons,
++        },
++    }
+diff --git a/test_capture_met.py b/test_capture_met.py
+index ed789c3..416165c 100644
+--- a/test_capture_met.py
++++ b/test_capture_met.py
+@@ -183,0 +184,8 @@ class TestStoragePolicy(ArtifactCase):
++                "request_url": capture_met.object_url(object_id),
++                "final_url": capture_met.object_url(object_id),
++                "request_started_at_utc": "2026-11-18T05:29:18Z",
++                "collected_at_utc": "2026-11-18T05:29:19Z",
++                "http_status": 200,
++                "response_headers": [["Content-Type", "application/json; charset=utf-8"]],
++                "byte_size": size,
++                "received_sha256": digest,
+@@ -189,0 +198 @@ class TestStoragePolicy(ArtifactCase):
++                "response_file": "response.bin",
+@@ -197,0 +207,10 @@ class TestStoragePolicy(ArtifactCase):
++    def replace_capture_value(self, directory: Path, key: str, value: object) -> None:
++        """Replace one capture field in a synthetic test fixture."""
++        capture_path = directory / "capture.json"
++        capture = json.loads(capture_path.read_text(encoding="utf-8"))
++        capture[key] = value
++        capture_path.write_text(
++            json.dumps(capture, ensure_ascii=False, indent=2) + "\n",
++            encoding="utf-8",
++        )
++
+@@ -280,0 +300,88 @@ class TestStoragePolicy(ArtifactCase):
++    def test_38_i01_valid_c_capture_is_accepted(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.assertTrue(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_39_i02_typed_capture_object_id_is_required(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(directory, "expected_objectID", "437127")
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_40_i03_received_sha256_mismatch_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(directory, "received_sha256", "0" * 64)
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_41_i04_stored_sha256_mismatch_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(directory, "stored_sha256", "0" * 64)
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_42_i05_received_byte_size_mismatch_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(directory, "byte_size", 1)
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_43_i06_stored_byte_size_mismatch_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(directory, "stored_byte_size", 1)
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_44_i07_non_200_http_status_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(directory, "http_status", 206)
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_45_i08_non_json_content_type_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(directory, "response_headers", [["Content-Type", "text/html"]])
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_46_i09_noncanonical_request_url_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(
++            directory, "request_url", f"{capture_met.object_url(437127)}?source=test"
++        )
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_47_i10_noncanonical_final_url_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(directory, "final_url", capture_met.object_url(436535))
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_48_i11_invalid_utc_order_is_rejected(self) -> None:
++        directory = self.make_directory()
++        self.write_complete_capture(directory, 437127)
++        self.replace_capture_value(
++            directory, "request_started_at_utc", "2026-11-18T05:29:21Z"
++        )
++        self.assertFalse(capture_met.verify_committed_directory(directory, 437127))
++
++    def test_49_i12_malformed_or_duplicate_capture_json_is_rejected(self) -> None:
++        root = self.make_directory()
++        malformed = root / "malformed"
++        malformed.mkdir()
++        self.write_complete_capture(malformed, 437127)
++        (malformed / "capture.json").write_text("{", encoding="utf-8")
++        self.assertFalse(capture_met.verify_committed_directory(malformed, 437127))
++
++        duplicate = root / "duplicate"
++        duplicate.mkdir()
++        self.write_complete_capture(duplicate, 437127)
++        capture_path = duplicate / "capture.json"
++        text = capture_path.read_text(encoding="utf-8")
++        capture_path.write_text(
++            text.replace('  "http_status": 200,', '  "http_status": 200,\n  "http_status": 200,', 1),
++            encoding="utf-8",
++        )
++        self.assertFalse(capture_met.verify_committed_directory(duplicate, 437127))
++
+diff --git a/test_rights_policy.py b/test_rights_policy.py
+new file mode 100644
+index 0000000..51b429b
+--- /dev/null
++++ b/test_rights_policy.py
+@@ -0,0 +1,98 @@
++"""Eight synthetic rights and visitor-output safety tests."""
++
++from __future__ import annotations
++
++import unittest
++
++from rights_policy import RightsSignals, evaluate_rights
++
++
++def signals(
++    *,
++    api_public_domain: bool = True,
++    page_public_domain: bool | None = True,
++    primary_image_present: bool = True,
++    image_download_available: bool | None = True,
++    metadata_reviewed: bool = True,
++    authored_text_approved: bool = True,
++    image_display_approved: bool = True,
++    third_party_fallback_requested: bool = False,
++    simulated_rights_change: str | None = None,
++) -> RightsSignals:
++    """Build a synthetic state for one safety scenario."""
++    return RightsSignals(
++        api_public_domain=api_public_domain,
++        page_public_domain=page_public_domain,
++        primary_image_present=primary_image_present,
++        image_download_available=image_download_available,
++        metadata_reviewed=metadata_reviewed,
++        authored_text_approved=authored_text_approved,
++        image_display_approved=image_display_approved,
++        third_party_fallback_requested=third_party_fallback_requested,
++        simulated_rights_change=simulated_rights_change,
++    )
++
++
++class TestRightsPolicy(unittest.TestCase):
++    """Exercise the preregistered R01-R08 fail-closed cases."""
++
++    def test_r01_api_page_conflict_is_held(self) -> None:
++        result = evaluate_rights(signals(api_public_domain=False))
++        self.assertEqual(result["IMAGE"]["decision"], "RIGHTS_REVIEW_HOLD")
++        self.assertIn("API_AND_ITEM_PAGE_RIGHTS_CONFLICT", result["IMAGE"]["reasons"])
++
++    def test_r02_absent_primary_image_is_held(self) -> None:
++        result = evaluate_rights(signals(primary_image_present=False))
++        self.assertEqual(result["IMAGE"]["decision"], "RIGHTS_REVIEW_HOLD")
++        self.assertIn("PRIMARY_IMAGE_ABSENT", result["IMAGE"]["reasons"])
++
++    def test_r03_non_public_domain_with_url_is_held(self) -> None:
++        result = evaluate_rights(
++            signals(api_public_domain=False, page_public_domain=False)
++        )
++        self.assertEqual(result["IMAGE"]["decision"], "RIGHTS_REVIEW_HOLD")
++        self.assertIn("API_NOT_PUBLIC_DOMAIN", result["IMAGE"]["reasons"])
++
++    def test_r04_public_domain_url_without_display_approval_is_held(self) -> None:
++        result = evaluate_rights(signals(image_display_approved=False))
++        self.assertEqual(result["IMAGE"]["decision"], "RIGHTS_REVIEW_HOLD")
++        self.assertIn("DISPLAY_NOT_APPROVED", result["IMAGE"]["reasons"])
++
++    def test_r05_third_party_image_fallback_is_forbidden(self) -> None:
++        result = evaluate_rights(signals(third_party_fallback_requested=True))
++        self.assertEqual(result["IMAGE"]["decision"], "RIGHTS_REVIEW_HOLD")
++        self.assertIn("THIRD_PARTY_FALLBACK_FORBIDDEN", result["IMAGE"]["reasons"])
++
++    def test_r06_simulated_revocation_or_reapproval_never_grants_real_use(self) -> None:
++        for event in ("SIMULATED_REVOKED", "SIMULATED_REAPPROVED"):
++            with self.subTest(event=event):
++                result = evaluate_rights(signals(simulated_rights_change=event))
++                self.assertEqual(result["IMAGE"]["decision"], "RIGHTS_REVIEW_HOLD")
++                self.assertIn(
++                    "SIMULATED_RIGHTS_CHANGE_NOT_REAL_EVIDENCE",
++                    result["IMAGE"]["reasons"],
++                )
++
++    def test_r07_authored_description_needs_independent_approval(self) -> None:
++        result = evaluate_rights(signals(authored_text_approved=False))
++        self.assertEqual(result["AUTHORED_TEXT"]["decision"], "RIGHTS_REVIEW_HOLD")
++        self.assertEqual(result["IMAGE"]["decision"], "IMAGE_REUSE_APPROVED")
++
++    def test_r08_reviewed_metadata_only_fallback_is_allowed(self) -> None:
++        result = evaluate_rights(
++            signals(
++                api_public_domain=False,
++                page_public_domain=None,
++                primary_image_present=False,
++                image_download_available=False,
++                authored_text_approved=False,
++                image_display_approved=False,
++            )
++        )
++        self.assertEqual(result["METADATA"]["decision"], "METADATA_ONLY_ALLOWED")
++        self.assertEqual(result["AUTHORED_TEXT"]["decision"], "RIGHTS_REVIEW_HOLD")
++        self.assertEqual(result["IMAGE"]["decision"], "RIGHTS_REVIEW_HOLD")
++
++
++if __name__ == "__main__":
++    unittest.main(verbosity=2)

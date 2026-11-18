@@ -1,0 +1,13 @@
+test_r01_api_page_conflict_is_held (test_rights_policy.TestRightsPolicy.test_r01_api_page_conflict_is_held) ... ok
+test_r02_absent_primary_image_is_held (test_rights_policy.TestRightsPolicy.test_r02_absent_primary_image_is_held) ... ok
+test_r03_non_public_domain_with_url_is_held (test_rights_policy.TestRightsPolicy.test_r03_non_public_domain_with_url_is_held) ... ok
+test_r04_public_domain_url_without_display_approval_is_held (test_rights_policy.TestRightsPolicy.test_r04_public_domain_url_without_display_approval_is_held) ... ok
+test_r05_third_party_image_fallback_is_forbidden (test_rights_policy.TestRightsPolicy.test_r05_third_party_image_fallback_is_forbidden) ... ok
+test_r06_simulated_revocation_or_reapproval_never_grants_real_use (test_rights_policy.TestRightsPolicy.test_r06_simulated_revocation_or_reapproval_never_grants_real_use) ... ok
+test_r07_authored_description_needs_independent_approval (test_rights_policy.TestRightsPolicy.test_r07_authored_description_needs_independent_approval) ... ok
+test_r08_reviewed_metadata_only_fallback_is_allowed (test_rights_policy.TestRightsPolicy.test_r08_reviewed_metadata_only_fallback_is_allowed) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.000s
+
+OK

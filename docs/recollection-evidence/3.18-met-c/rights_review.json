@@ -1,0 +1,114 @@
+{
+  "reviewed_at_utc": "2026-11-18T12:47:00.613737Z",
+  "policy_evidence": {
+    "open_access_url": "https://www.metmuseum.org/hubs/open-access",
+    "terms_url": "https://www.metmuseum.org/policies/terms-and-conditions",
+    "retrieved_at_utc": "2026-11-18T12:47:00.613737Z",
+    "summary": [
+      "Met states that OA public-domain images and basic collection data are available under CC0.",
+      "Met terms distinguish OA-marked material from material under copyright or other restrictions.",
+      "An API flag, URL, or page label is not treated as application display approval in this run."
+    ]
+  },
+  "objects": [
+    {
+      "object_id": 437127,
+      "title": "Bridge over a Pond of Water Lilies",
+      "artist": "Claude Monet",
+      "api": {
+        "is_public_domain": false,
+        "metadata_date": "2026-07-24T09:33:00.533Z",
+        "primary_image_present": false,
+        "response_sha256": "a0db88a8cc7548e63036c030a7ace1e2c65df040148d07da5c0610e7a827185b"
+      },
+      "item_page": {
+        "url": "https://www.metmuseum.org/art/collection/search/437127",
+        "retrieved_at_utc": "2026-11-18T12:47:00.613737Z",
+        "public_domain_wording_observed": false,
+        "oa_icon_observed": false,
+        "download_available_wording_observed": false,
+        "restriction_wording_observed": "This image cannot be enlarged, viewed at full screen, or downloaded."
+      },
+      "actual_use_review": {
+        "metadata_reviewed": true,
+        "authored_text_approved": false,
+        "image_display_approved": false,
+        "review_scope": "source and citation review only; no legal or product release approval"
+      },
+      "current_source_conflict": false,
+      "historical_plan_note": "An older indexed snapshot reported conflicting page/API signals; it is not used as a current oracle.",
+      "decisions": {
+        "METADATA": {
+          "decision": "METADATA_ONLY_ALLOWED",
+          "reasons": []
+        },
+        "AUTHORED_TEXT": {
+          "decision": "RIGHTS_REVIEW_HOLD",
+          "reasons": [
+            "AUTHORED_TEXT_APPROVAL_REQUIRED"
+          ]
+        },
+        "IMAGE": {
+          "decision": "RIGHTS_REVIEW_HOLD",
+          "reasons": [
+            "PRIMARY_IMAGE_ABSENT",
+            "DOWNLOAD_NOT_CONFIRMED",
+            "API_NOT_PUBLIC_DOMAIN",
+            "ITEM_PAGE_PUBLIC_DOMAIN_NOT_CONFIRMED",
+            "DISPLAY_NOT_APPROVED"
+          ]
+        }
+      }
+    },
+    {
+      "object_id": 436535,
+      "title": "Wheat Field with Cypresses",
+      "artist": "Vincent van Gogh",
+      "api": {
+        "is_public_domain": true,
+        "metadata_date": "2026-11-06T04:53:14.23Z",
+        "primary_image_present": true,
+        "response_sha256": "497e0d1cd9166d27f6ef9b5e551b0cd8bafbcf1a5e134f364ba406b3a1f57d62"
+      },
+      "item_page": {
+        "url": "https://www.metmuseum.org/art/collection/search/436535",
+        "retrieved_at_utc": "2026-11-18T12:47:00.613737Z",
+        "public_domain_wording_observed": true,
+        "oa_icon_observed": null,
+        "download_available_wording_observed": true,
+        "restriction_wording_observed": null
+      },
+      "actual_use_review": {
+        "metadata_reviewed": true,
+        "authored_text_approved": false,
+        "image_display_approved": false,
+        "review_scope": "source and citation review only; no legal or product release approval"
+      },
+      "current_source_conflict": false,
+      "historical_plan_note": null,
+      "decisions": {
+        "METADATA": {
+          "decision": "METADATA_ONLY_ALLOWED",
+          "reasons": []
+        },
+        "AUTHORED_TEXT": {
+          "decision": "RIGHTS_REVIEW_HOLD",
+          "reasons": [
+            "AUTHORED_TEXT_APPROVAL_REQUIRED"
+          ]
+        },
+        "IMAGE": {
+          "decision": "RIGHTS_REVIEW_HOLD",
+          "reasons": [
+            "DISPLAY_NOT_APPROVED"
+          ]
+        }
+      }
+    }
+  ],
+  "slot_count": 6,
+  "rights_review_hold_count": 4,
+  "metadata_only_allowed_count": 2,
+  "image_files_downloaded": 0,
+  "legal_conclusion": "NONE; this is a fail-closed evidence workflow, not legal advice."
+}

@@ -22,3 +22,10 @@ The official rules require newly created projects, meaningful Kiro usage, and di
 - The user explicitly approved `claude-opus-5.5` with `max` effort and PUBLIC visibility for **this single contest repository**. Earlier `max`-versus-`high` policy discrepancy is resolved as a policy decision; retain the historical record that bootstrap ran at max.
 - The GitHub source was **still PRIVATE** when this log update was made. The authorized visibility change must be completed from the user's authenticated Windows `gh` CLI and verified. Public code is not proof that a Kiro-built application exists.
 - This changes visibility only, **not** ownership, source provenance, copyright, licensing, competition eligibility, production deployment, or safety approval. Before public transition, inspect history and artifacts for secrets, personal data and redistribution restrictions.
+
+## 2026-11-18 Re:Collection Met C evidence branch
+
+- Execution plan: repository commit `ddfa8ad36ff61128a684dc125d5105721ad246e7`; collector/test baseline: repository commit `93c4f7a9765af8c4fcd5a4c74f1ee7c98e9b2bd8`.
+- OpenAI Codex performed this evidence run outside Kiro. It added 12 integrity regressions and 8 synthetic rights/output safety tests, collected two official Met JSON responses, and generated the sanitized packet in `docs/recollection-evidence/3.18-met-c/`.
+- Private local evidence contains the raw response bytes, capture metadata, commit markers, and response headers. Those artifacts are intentionally excluded from GitHub; the branch publishes only code, tests, measured logs, response hashes/sizes, and source-separated rights decisions.
+- This work is research evidence, not a Kiro-built product feature, legal opinion, image-use authorization, deployment, or contest-app implementation. No image file was downloaded.

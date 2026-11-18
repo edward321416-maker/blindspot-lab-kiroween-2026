@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "scope": "Met C JSON-only evidence summary",
+  "captured_at_utc_window": {
+    "start": "2026-11-18T12:43:49.781608Z",
+    "end": "2026-11-18T12:43:52.195127Z"
+  },
+  "source_commits": {
+    "execution_plan": "ddfa8ad36ff61128a684dc125d5105721ad246e7",
+    "collector_baseline": "93c4f7a9765af8c4fcd5a4c74f1ee7c98e9b2bd8"
+  },
+  "raw_capture_success_count": 2,
+  "raw_capture_target_count": 2,
+  "sha256_verified_count": 2,
+  "object_id_verified_count": 2,
+  "image_files_downloaded": 0,
+  "objects": [
+    {
+      "object_id": 437127,
+      "title": "Bridge over a Pond of Water Lilies",
+      "artist": "Claude Monet",
+      "api_url": "https://collectionapi.metmuseum.org/public/collection/v1/objects/437127",
+      "item_page_url": "https://www.metmuseum.org/art/collection/search/437127",
+      "http_status": 200,
+      "response_byte_size": 2386,
+      "response_sha256": "a0db88a8cc7548e63036c030a7ace1e2c65df040148d07da5c0610e7a827185b",
+      "metadata_date": "2026-07-24T09:33:00.533Z",
+      "is_public_domain": false,
+      "primary_image_present": false,
+      "patched_verifier_result": true
+    },
+    {
+      "object_id": 436535,
+      "title": "Wheat Field with Cypresses",
+      "artist": "Vincent van Gogh",
+      "api_url": "https://collectionapi.metmuseum.org/public/collection/v1/objects/436535",
+      "item_page_url": "https://www.metmuseum.org/art/collection/search/436535",
+      "http_status": 200,
+      "response_byte_size": 2793,
+      "response_sha256": "497e0d1cd9166d27f6ef9b5e551b0cd8bafbcf1a5e134f364ba406b3a1f57d62",
+      "metadata_date": "2026-11-06T04:53:14.23Z",
+      "is_public_domain": true,
+      "primary_image_present": true,
+      "patched_verifier_result": true
+    }
+  ],
+  "public_artifact_policy": {
+    "raw_response_included": false,
+    "capture_json_included": false,
+    "committed_marker_included": false,
+    "response_headers_included": false,
+    "image_files_included": false
+  }
+}

@@ -1,0 +1,42 @@
+test_28_atomic_write_and_file_hash (test_capture_met.TestStoragePolicy.test_28_atomic_write_and_file_hash) ... ok
+test_29_overwrite_is_refused (test_capture_met.TestStoragePolicy.test_29_overwrite_is_refused) ... ok
+test_30_incomplete_capture_is_not_committed (test_capture_met.TestStoragePolicy.test_30_incomplete_capture_is_not_committed) ... ok
+test_31_corrupted_response_is_not_committed (test_capture_met.TestStoragePolicy.test_31_corrupted_response_is_not_committed) ... ok
+test_32_complete_capture_is_committed (test_capture_met.TestStoragePolicy.test_32_complete_capture_is_committed) ... ok
+test_33_wrong_marker_object_id_is_rejected (test_capture_met.TestStoragePolicy.test_33_wrong_marker_object_id_is_rejected) ... ok
+test_34_wrong_marker_sha256_is_rejected (test_capture_met.TestStoragePolicy.test_34_wrong_marker_sha256_is_rejected) ... ok
+test_35_committed_prefix_only_is_rejected (test_capture_met.TestStoragePolicy.test_35_committed_prefix_only_is_rejected) ... ok
+test_36_naive_marker_timestamp_is_rejected (test_capture_met.TestStoragePolicy.test_36_naive_marker_timestamp_is_rejected) ... ok
+test_37_extra_marker_line_is_rejected (test_capture_met.TestStoragePolicy.test_37_extra_marker_line_is_rejected) ... ok
+test_01_accepts_exact_integer_object_id (test_capture_met.TestStrictJson.test_01_accepts_exact_integer_object_id) ... ok
+test_02_rejects_missing_object_id (test_capture_met.TestStrictJson.test_02_rejects_missing_object_id) ... ok
+test_03_rejects_wrong_object_id (test_capture_met.TestStrictJson.test_03_rejects_wrong_object_id) ... ok
+test_04_rejects_string_object_id (test_capture_met.TestStrictJson.test_04_rejects_string_object_id) ... ok
+test_05_rejects_boolean_object_id (test_capture_met.TestStrictJson.test_05_rejects_boolean_object_id) ... ok
+test_06_rejects_duplicate_top_level_key (test_capture_met.TestStrictJson.test_06_rejects_duplicate_top_level_key) ... ok
+test_07_rejects_duplicate_nested_key (test_capture_met.TestStrictJson.test_07_rejects_duplicate_nested_key) ... ok
+test_08_rejects_nan (test_capture_met.TestStrictJson.test_08_rejects_nan) ... ok
+test_09_rejects_infinity (test_capture_met.TestStrictJson.test_09_rejects_infinity) ... ok
+test_10_rejects_negative_infinity (test_capture_met.TestStrictJson.test_10_rejects_negative_infinity) ... ok
+test_11_rejects_invalid_utf8 (test_capture_met.TestStrictJson.test_11_rejects_invalid_utf8) ... ok
+test_12_rejects_trailing_data (test_capture_met.TestStrictJson.test_12_rejects_trailing_data) ... ok
+test_13_rejects_array_root (test_capture_met.TestStrictJson.test_13_rejects_array_root) ... ok
+test_14_rejects_malformed_json (test_capture_met.TestStrictJson.test_14_rejects_malformed_json) ... ok
+test_15_rejects_utf8_bom (test_capture_met.TestStrictJson.test_15_rejects_utf8_bom) ... ok
+test_16_rejects_escaped_duplicate_key (test_capture_met.TestStrictJson.test_16_rejects_escaped_duplicate_key) ... ok
+test_17_accepts_nested_unique_values (test_capture_met.TestStrictJson.test_17_accepts_nested_unique_values) ... ok
+test_18_accepts_canonical_url (test_capture_met.TestUrlPolicy.test_18_accepts_canonical_url) ... ok
+test_19_accepts_explicit_https_port (test_capture_met.TestUrlPolicy.test_19_accepts_explicit_https_port) ... ok
+test_20_rejects_http (test_capture_met.TestUrlPolicy.test_20_rejects_http) ... ok
+test_21_rejects_wrong_host (test_capture_met.TestUrlPolicy.test_21_rejects_wrong_host) ... ok
+test_22_rejects_userinfo (test_capture_met.TestUrlPolicy.test_22_rejects_userinfo) ... ok
+test_23_rejects_nonstandard_port (test_capture_met.TestUrlPolicy.test_23_rejects_nonstandard_port) ... ok
+test_24_rejects_wrong_object_path (test_capture_met.TestUrlPolicy.test_24_rejects_wrong_object_path) ... ok
+test_25_rejects_query (test_capture_met.TestUrlPolicy.test_25_rejects_query) ... ok
+test_26_rejects_fragment (test_capture_met.TestUrlPolicy.test_26_rejects_fragment) ... ok
+test_27_rejects_lookalike_host (test_capture_met.TestUrlPolicy.test_27_rejects_lookalike_host) ... ok
+
+----------------------------------------------------------------------
+Ran 37 tests in 0.410s
+
+OK
