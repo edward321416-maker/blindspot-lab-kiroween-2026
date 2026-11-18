@@ -30,6 +30,32 @@ class RightsSignals:
 
 def evaluate_rights(signals: RightsSignals) -> dict[str, dict[str, object]]:
     """Evaluate metadata, authored text, and image output independently."""
+    # Runtime types matter: a string such as "false" is truthy in Python.
+    # Reject invalid data at this exact approval boundary, even if constructed
+    # through a dataclass with type hints or decoded from external JSON.
+    required_bools = (
+        "api_public_domain",
+        "primary_image_present",
+        "metadata_reviewed",
+        "authored_text_approved",
+        "image_display_approved",
+        "third_party_fallback_requested",
+    )
+    valid = isinstance(signals, RightsSignals) and all(
+        type(getattr(signals, field)) is bool for field in required_bools
+    )
+    if valid:
+        valid = (
+            (signals.page_public_domain is None or type(signals.page_public_domain) is bool)
+            and (signals.image_download_available is None or type(signals.image_download_available) is bool)
+            and (signals.simulated_rights_change is None or type(signals.simulated_rights_change) is str)
+        )
+    if not valid:
+        return {
+            slot: {"decision": "RIGHTS_REVIEW_HOLD", "reasons": ["INVALID_SIGNAL_TYPE"]}
+            for slot in ("METADATA", "AUTHORED_TEXT", "IMAGE")
+        }
+
     conflict = (
         signals.page_public_domain is not None
         and signals.api_public_domain != signals.page_public_domain

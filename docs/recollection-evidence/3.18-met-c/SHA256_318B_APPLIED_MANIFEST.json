@@ -1,0 +1,41 @@
+{
+  "format": "ReCollection 3.18b GitHub isolated patch manifest",
+  "base_commit": "70c1e4527fb34c438d893c9a0a54b35f462314c0",
+  "branch": "evidence/recollection-met-c-318b-gate-rights-patch-20261119",
+  "patched_files": [
+    {
+      "path": "docs/recollection-evidence/3.18-met-c/collect_met_c.py",
+      "sha256": "2ee25274caef9c8cf02756eae752c993f3651a4e788683f850081bb8bea9d605",
+      "byte_size": 8364
+    },
+    {
+      "path": "docs/recollection-evidence/3.18-met-c/rights_policy.py",
+      "sha256": "b3e75856395a2c534bc77b4faed28099ac73e53ff1b38201555a826907c8d049",
+      "byte_size": 4396
+    },
+    {
+      "path": "docs/recollection-evidence/3.18-met-c/test_independent_318b.py",
+      "sha256": "71085c42deec49ccb39162c8e24fd95840d716b754101fec190390809c8bd937",
+      "byte_size": 5493
+    }
+  ],
+  "baseline_unchanged": [
+    "capture_met.py",
+    "test_capture_met.py",
+    "test_rights_policy.py"
+  ],
+  "independent_executed_tests": {
+    "original": 57,
+    "patched": 70,
+    "new_regressions": 13,
+    "fresh_gate": 49
+  },
+  "forged_existing_log": {
+    "accepted": false,
+    "exit_code": 30,
+    "captures": 0
+  },
+  "c_raw_independently_verified": 0,
+  "rights_display_hold": 4,
+  "windows_local_patch_applied": false
+}
