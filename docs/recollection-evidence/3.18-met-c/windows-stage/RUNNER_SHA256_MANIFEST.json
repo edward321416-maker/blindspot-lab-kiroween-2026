@@ -1,0 +1,17 @@
+{
+  "format": "ReCollection-318b-Windows-stage-handoff",
+  "source_commit": "d344673599408732ce1400a22cafb798c6e760b4",
+  "runner_sha256": "89fddeb6084cb26d9fe44ccd5bfc1f9cf864d524c0b631d24ada74d10ab18fe7",
+  "runner_bytes": 13857,
+  "preflight_nonwindows_tests": {
+    "suite70": "PASS",
+    "fresh_gate49": "PASS",
+    "bad_rights4": "PASS",
+    "forged_log": "BLOCKED",
+    "reused_stage": "REFUSED_EXIT_32"
+  },
+  "user_windows_execution": "PENDING",
+  "raw_c_independent_hash": "HOLD",
+  "rights_text_image": "HOLD",
+  "kiro_product_changed": false
+}
